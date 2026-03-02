@@ -1,0 +1,31 @@
+Structure:
+
+Task Definition: Generate four geometrically consistent views of the same single 3D object strictly within the given masks.
+
+Camera Constraints: Fix camera parameters and allow only azimuth rotation while keeping object pose and scale unchanged.
+
+Rendering Constraints: Enforce a clean white background with no environmental elements, shadows, scaling drift, or framing differences.
+
+Silhouette Consistency: Require strict horizontal mirror symmetry between front/back and left/right view pairs.
+
+Mask Interpretation: Treat mask colors as structural identifiers only and not as material or appearance cues.
+
+Material Override: Enforce a predefined material palette that completely overrides any mask color influence.
+
+Structural Description: Maintain consistent massing, proportions, and architectural relationships across all four views.
+
+
+
+Template:
+
+Given a four-view, part-colored multiview mask, generate exactly four images by inpainting strictly within the masked regions. The four images must depict the same single 3D object under fixed camera poses at azimuths 0°, 90°, 180°, and 270°, with identical camera distance, focal length, elevation, and framing. Only the camera rotates; the object must not change pose, proportions, structure, layout, or scale. All four images must be geometrically consistent projections of one single 3D structure.
+
+The background must be pure white with no ground plane, no floor, no terrain, no horizon line, no cast shadows, no contact shadows, no reflections, and no environmental lighting effects. Do not introduce any additional objects. The object must be centered and rendered at consistent scale across all four views, with no cropping differences and no zoom variations.
+
+The silhouettes must be consistent across views: the 0° and 180° views must be horizontal mirrors of each other in overall silhouette, and the 90° and 270° views must be horizontal mirrors of each other in overall silhouette. No structural variation is allowed between mirrored views.
+
+The masks are noisy and hand-drawn and provide approximate structural and part-level guidance only. Mask colors indicate part correspondence across views. Mask colors are arbitrary identifiers and must not influence the final material or surface colors. Mask colors must not appear in the rendered object.
+
+All visible surfaces must strictly follow the material and appearance description below, regardless of mask color. The final material appearance must ignore mask colors completely.
+
+The object is described as follows: [Insert object type and structural description here]. Maintain consistent massing, structural relationships, proportions, and detailing across all four views.
