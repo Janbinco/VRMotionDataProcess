@@ -39,7 +39,7 @@ DEFAULT_NUM_POINTS = 5000
 DEFAULT_RESOLUTION = 512
 DEFAULT_RADIUS = 0.015  # Fixed sphere radius in normalized coordinates
 CAMERA_ELEVATION = 0.0
-CAMERA_AZIMUTHS = [90.0, 180.0, 270.0, 0.0]
+CAMERA_AZIMUTHS = [0.0, 90.0, 180.0, 270.0]
 
 # Distinct colors for up to 8 parts
 PART_COLORS = [
@@ -65,8 +65,10 @@ def load_points_from_obj(obj_file, unity_to_standard=True):
                 parts = line.strip().split()
                 x, y, z = float(parts[1]), float(parts[2]), float(parts[3])
                 if unity_to_standard:
-                    z = -z
-                    y, z = -z, y
+                    # Unity left-handed (X=right, Y=up, Z=forward) -> right-handed:
+                    # negate X to flip handedness, then remap Y=depth, Z=up for renderer
+                    x = -x
+                    y, z = z, y
                 vertices.append([x, y, z])
     return np.array(vertices)
 
@@ -102,8 +104,9 @@ def rotate_points(points, azimuth, elevation):
 
 
 def create_2x2_grid(images):
-    top = np.hstack([images[1], images[0]])
-    bottom = np.hstack([images[3], images[2]])
+    # TL=180°, TR=270°, BL=0°, BR=90°
+    top = np.hstack([images[2], images[3]])
+    bottom = np.hstack([images[0], images[1]])
     return np.vstack([top, bottom])
 
 
