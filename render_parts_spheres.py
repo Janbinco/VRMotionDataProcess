@@ -187,7 +187,8 @@ def process_model(model_dir, num_points=5000, resolution=512, radius=None, auto_
         obj_files = sorted(glob.glob(os.path.join(parts_dir, "*.obj")))
     else:
         obj_files = sorted(glob.glob(os.path.join(model_dir, "*.obj")))
-    obj_files = [f for f in obj_files if not Path(f).stem.startswith("finger_traj")]
+    obj_files = [f for f in obj_files if not Path(f).stem.startswith("finger_traj")
+                 and Path(f).stem != "sketch"]
 
     if not obj_files:
         print("  No .obj files found!")
